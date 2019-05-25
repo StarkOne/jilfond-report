@@ -1,0 +1,27 @@
+{
+  "name": "jilfond-report",
+  "version": "1.0.0",
+  "description": "Программа для составление отчётов",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/StarkOne/jilfond-report.git"
+  },
+  "author": "Vladislav Semyanov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/StarkOne/jilfond-report/issues"
+  },
+  "homepage": "https://github.com/StarkOne/jilfond-report#readme",
+  "devDependencies": {
+    "nodemon": "^1.19.0"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "moment": "^2.24.0"
+  }
+}
