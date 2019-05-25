@@ -2,7 +2,11 @@ const fs = require('fs');
 const path = require('path');
 
 const createReport = (data) => {
-  data.map(item => console.log('tetetet',item));
+  let text = "";
+  data.map(item => {
+    text += `${item.title};затрачено - ${item.spent}м; состояние - ${item.status};\n`
+  });
+  console.log(text);
  /*  fs.writeFile('test.json', JSON.stringify(data), err => {
     if (err) throw err;
     console.log('File is created successfully.');
