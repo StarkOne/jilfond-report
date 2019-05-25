@@ -1,30 +1,21 @@
-const { token, url } = require('./config');
-const axios = require('axios');
-const report = require('./report');
+const { token, url, outstandingTasks, me } = require("./config");
+const axios = require("axios");
+const Spinner = require("cli-spinner").Spinner;
+const sp = new Spinner();
+sp.setSpinnerString(18);
+const report = require("./report");
 try {
-  axios.defaults.headers['Authorization'] = token;
-}
-catch (e) { }
-axios.get(url)
-  .then(response => {
-    const { data } = response;
-    const items = [];
-    data.map(item => {
-      //console.log(item.customFields[4]["value"] ? '1': '2');
-      items.push({
-        title: item.summary,
-        done: typeof (item.resolved) == 'number' ? true : false,
-        status: item.customFields[2]["value"]['name'],
-        working: item.customFields[3]["value"]['name'],
-        time: item.customFields[4]["value"] ? item.customFields[4]['value'].minutes : null,
-        spent: item.customFields[5]["value"] ? item.customFields[5]["value"]['minutes'] : null,
-      })
-    });
-    return items;
-  }).then((data) => {
-    report.createReport(data);
-  })
-  .catch(error => {
-    // handle error
-    console.log(error);
-  })
+  axios.defaults.headers["Authorization"] = token;
+  axios.defaults.baseURL = "https://jilfond.myjetbrains.com";
+} catch (e) {}
+
+(async () => {
+  sp.start();
+  const [monthTask, unfulfilled, user] = await Promise.all([
+    axios.get(url),
+    axios.get(outstandingTasks),
+    axios.get(me)
+  ]);
+  await report.createReport(monthTask, unfulfilled, user);
+  sp.stop();
+})();
