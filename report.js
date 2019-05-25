@@ -21,7 +21,7 @@ const createReport = ({ data }, { data: taskNotDone }, { data: user }) => {
   const statusDone = helpers.filterStatus(helpers.filterAuthor(items, user));
   const statusNotDone = helpers.filterAuthor(itemsNotDone, user);
   items.map(item => {
-    text += `${item.title};затрачено - ${
+    text += `${item.title}; затрачено - ${
       item.spent ? item.spent : 0
     }м; состояние - ${item.status};\n`;
   });
