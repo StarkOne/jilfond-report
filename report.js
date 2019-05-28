@@ -10,6 +10,10 @@ const title = moment().format("MMMM-GGGG");
 const directory = __dirname + "/reports";
 const pathReports = path.join(__dirname, "reports", `${title}.txt`);
 
+function formatTime(data) {
+  return (((data / 60) > 1) ? ((data / 60).toFixed(0) + 'ч') + (data % 60 != 0 ? (data % 60)  + 'м' : '') : data + 'м')
+}
+
 const createReport = ({ data }, { data: taskNotDone }, { data: user }) => {
   if (!fs.existsSync(directory)) {
     fs.mkdirSync(directory);
@@ -22,14 +26,14 @@ const createReport = ({ data }, { data: taskNotDone }, { data: user }) => {
   const statusNotDone = helpers.filterAuthor(itemsNotDone, user);
   items.map(item => {
     text += `${item.title}; затрачено - ${
-      item.spent ? item.spent : 0
-    }м; состояние - ${item.status};\n`;
+      item.spent ? formatTime(item.spent) : 0
+    }; состояние - ${item.status};\n`;
   });
   text += "\nДостигнутые результаты:\n\n";
   statusDone.map(item => {
-    text += `${item.title}; план - ${item.time ? item.time : 0}м; затрачено - ${
-      item.spent ? item.spent : 0
-    }м; стоимость - ${item.time * (config.costPerHour / 60) * 1.3}р;\n`;
+    text += `${item.title}; план - ${item.time ? formatTime(item.time) : 0}; затрачено - ${
+      item.spent ? formatTime(item.spent) : 0
+    }; стоимость - ${(item.time * (config.costPerHour / 60) * 1.3).toFixed(0)}р;\n`;
   });
   text += `\nПланы на ${moment()
     .add(1, "M")
