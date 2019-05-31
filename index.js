@@ -6,7 +6,7 @@ sp.setSpinnerString(18);
 const report = require("./report");
 if (token && costPerHour) {
   try {
-    axios.defaults.headers["Authorization"] = token;
+    axios.defaults.headers["Authorization"] = "Bearer " + token;
     axios.defaults.baseURL = "https://jilfond.myjetbrains.com";
   } catch (e) { }
 
