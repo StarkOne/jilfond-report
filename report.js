@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const moment = require("moment");
-const config = require("./config");
+const env = require('dotenv').config().parsed;
 const helpers = require("./helpers");
 const colors = require("colors");
 moment.locale("ru");
@@ -33,7 +33,7 @@ const createReport = ({ data }, { data: taskNotDone }, { data: user }) => {
   statusDone.map(item => {
     text += `${item.title}; план - ${item.time ? formatTime(item.time) : 0}; затрачено - ${
       item.spent ? formatTime(item.spent) : 0
-    }; стоимость - ${(item.time * (config.costPerHour / 60) * 1.3).toFixed(0)}р;\n`;
+    }; стоимость - ${((item.spent * (env.COST_PER_HOUR / 60)) * 1.3)}р;\n`;
   });
   text += `\nПланы на ${moment()
     .add(1, "M")
