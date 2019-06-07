@@ -4,7 +4,6 @@ const fs = require("fs");
 const path = require("path");
 const env = require('dotenv').config().parsed;
 const helpers = require("./helpers");
-const colors = require("colors");
 let date, title;
 if(process.argv[3]) {
   dateParam = process.argv[3].split(/date=/)[1] + '-01';
@@ -42,7 +41,7 @@ const createReport = ({ data }, { data: taskNotDone }, { data: user }) => {
   });
   text += "\nДостигнутые результаты:\n\n";
   statusDone.map(item => {
-    let money = ((item.spent * (env.COST_PER_HOUR / 60)) * 1.3).toFixed(0);
+    let money = ((item.time * (env.COST_PER_HOUR / 60)) * 1.3).toFixed(0);
     planAll += item.time;
     spentAll += item.spent;
     moneyAll += parseInt(money);
