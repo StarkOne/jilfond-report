@@ -2,29 +2,32 @@ const moment = require("moment");
 moment.locale("ru");
 const fs = require("fs");
 const path = require("path");
+const colors = require('colors');
 const env = require('dotenv').config().parsed;
 const helpers = require("./helpers");
-let date, title;
-if(process.argv[3]) {
-  dateParam = process.argv[3].split(/date=/)[1] + '-01';
-  date = moment(dateParam).format("MMMM - GGGG");
-  title = moment(dateParam).format("MMMM-GGGG");
-} else {
-  date = moment().format("MMMM - GGGG");
-  title = moment().format("MMMM-GGGG");
-}
 const directory = __dirname + "/reports";
-const pathReports = path.join(__dirname, "reports", `${title}.txt`);
-
+let pathReports = null;
 let planAll = null;
 let spentAll = null;
 let moneyAll = null;
-
+let date, title;
 function formatTime(data) {
   return (((data / 60) > 1) ? (Math.floor((data / 60)).toFixed(0) + 'ч') + (data % 60 != 0 ? Math.floor(data % 60)  + 'м' : '') : data + 'м')
 }
 
-const createReport = ({ data }, { data: taskNotDone }, { data: user }) => {
+function createCurrentDate(str) {
+  if(str) {
+    date = moment(str).format("MMMM - GGGG");
+    title = moment(str).format("MMMM-GGGG");
+  } else {
+    date = moment().format("MMMM - GGGG");
+    title = moment().format("MMMM-GGGG");
+  }
+}
+
+const createReport = ({ data }, { data: taskNotDone }, { data: user }, month) => {
+  createCurrentDate(month);
+  pathReports = path.join(__dirname, "reports", `${title}.txt`);
   if (!fs.existsSync(directory)) {
     fs.mkdirSync(directory);
   }
