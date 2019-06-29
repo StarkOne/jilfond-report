@@ -25,7 +25,7 @@ module.exports.createObj = data => {
       title: item.summary,
       done: typeof item.resolved == "number" ? true : false,
       status: status,
-      working: item.customFields[3]["value"]["name"],
+      working: item.customFields[3]["value"] ? item.customFields[3]["value"]["name"] : '',
       time: item.customFields[4]["value"]
         ? item.customFields[4]["value"].minutes
         : null,

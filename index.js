@@ -12,6 +12,7 @@ moment.locale("ru");
 prompt.run()
   .then((answer) => {
     const dateMonth = moment().month(answer).format("GGGG-MM");
+    const urlReady = url.replace(/{data}/gim, dateMonth);
     if (env.TOKEN && env.COST_PER_HOUR) {
       try {
         axios.defaults.headers["Authorization"] = "Bearer " + env.TOKEN;
@@ -21,7 +22,7 @@ prompt.run()
       (async () => {
         sp.start();
         const [monthTask, unfulfilled, user] = await Promise.all([
-          axios.get(url + dateMonth),
+          axios.get(urlReady),
           axios.get(outstandingTasks),
           axios.get(me)
         ]);

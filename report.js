@@ -12,7 +12,7 @@ let spentAll = null;
 let moneyAll = null;
 let date, title;
 function formatTime(data) {
-  return (((data / 60) > 1) ? (Math.floor((data / 60)).toFixed(0) + 'ч') + (data % 60 != 0 ? Math.floor(data % 60)  + 'м' : '') : data + 'м')
+  return data ? (((data / 60) > 1) ? (Math.floor((data / 60)).toFixed(0) + 'ч') + (data % 60 != 0 ? Math.floor(data % 60)  + 'м' : '') : data + 'м') : '0'
 }
 
 function createCurrentDate(str) {
@@ -33,9 +33,9 @@ const createReport = ({ data }, { data: taskNotDone }, { data: user }, month) =>
   }
 
   let text = `${date}\n\n`;
-  const items = helpers.createObj(data);
+  const items = helpers.filterAuthor(helpers.createObj(data), user);
   const itemsNotDone = helpers.createObj(taskNotDone);
-  const statusDone = helpers.filterStatus(helpers.filterAuthor(items, user));
+  const statusDone = helpers.filterStatus(items);
   const statusNotDone = helpers.filterAuthor(itemsNotDone, user);
   items.map(item => {
     text += `${item.title}; затрачено - ${
@@ -52,7 +52,7 @@ const createReport = ({ data }, { data: taskNotDone }, { data: user }, month) =>
       item.spent ? formatTime(item.spent) : 0
     }; стоимость - ${money}р;\n`;
   });
-  text += `Всего: план ${formatTime(planAll)}; затрачено ${formatTime(spentAll)}; стоимость ${moneyAll}р;\n`
+  text += `Всего: план ${formatTime(planAll)}; затрачено ${formatTime(spentAll)}; стоимость ${moneyAll ? moneyAll : '0'}р;\n`
   text += `\nПланы на ${moment()
     .add(1, "M")
     .format("MMMM")}:\n\n`;
