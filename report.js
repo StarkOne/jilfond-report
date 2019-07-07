@@ -53,7 +53,8 @@ const createReport = ({ data }, { data: taskNotDone }, { data: user }, month) =>
     }; стоимость - ${money}р;\n`;
   });
   text += `Всего: план ${formatTime(planAll)}; затрачено ${formatTime(spentAll)}; стоимость ${moneyAll ? moneyAll : '0'}р;\n`
-  text += `\nПланы на ${moment()
+  console.log(date.replace(/\s/gi, ''));
+  text += `\nПланы на ${moment(month)
     .add(1, "M")
     .format("MMMM")}:\n\n`;
   statusNotDone.map(item => {

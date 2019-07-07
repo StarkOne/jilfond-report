@@ -17,6 +17,9 @@ module.exports.createObj = data => {
       case "In Progress":
         status = "В работе";
         break;
+      case "Won't fix":
+        status = "Исправление не планируется";
+        break;
       default:
         status = item.customFields[2]["value"]["name"];
         break;
