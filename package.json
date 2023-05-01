@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/StarkOne/jilfond-report#readme",
   "devDependencies": {
-    "nodemon": "^1.19.0"
+    "nodemon": "^2.0.22"
   },
   "dependencies": {
     "axios": "^0.21.2",
